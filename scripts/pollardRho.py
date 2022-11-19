@@ -68,7 +68,7 @@ def pollard_rho(gamma, h, p, order):
         intermediate = numerator * denominator
     else:
         intermediate = numerator / denominator
-    if intermediate < 0:
+    while intermediate < 0:
         intermediate = intermediate + order
     a = (intermediate % order)
 
