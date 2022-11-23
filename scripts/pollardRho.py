@@ -63,11 +63,9 @@ def pollard_rho(gamma, h, p, order):
     numerator = b[last_index] - b[first_index]
     denominator = c[first_index] - c[last_index]
     intermediate = 0
-    if denominator < 0:
-        denominator = inverse_mod(denominator, order)
-        intermediate = numerator * denominator
-    else:
-        intermediate = numerator / denominator
+    denominator = inverse_mod(denominator, order)
+    intermediate = numerator * denominator
+
     while intermediate < 0:
         intermediate = intermediate + order
     a = (intermediate % order)
