@@ -57,6 +57,7 @@ def pollard_rho(gamma, h, p, order):
     print("b = " + str(b[first_index]))
     print("c = " + str(c[first_index]))
     print("c' = " + str(c[last_index]))
+    print(c)
 
     # a bit of wizardry since mathematical operators work differently in python rather than
     # just pure SageMath

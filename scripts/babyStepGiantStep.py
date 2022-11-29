@@ -55,18 +55,17 @@ def multiply_function(m1, m2, p):
     return alpha,beta
 def baby_step_giant_step(g1, g2, order, h1, h2, p):
     l = math.floor(math.sqrt(order))
-    print(l)
     list_baby = [(1,1), (g1,g2)]
     for i in range(2, l + 1):
         result = exponent_function(g1, g2, i, p)
         list_baby.append(result)
-    # compute g^-l so i can compute (g^-l)^j mod p which is (13 + 0 sqrt{3})^-1)
-    inv_g1 = 86
-    inv_g2 = 4
+    # compute g^-l so i can compute (g^-l)^j mod p which is (105 + 165 sqrt{3})^-1)
+    inv_g1 = 34
+    inv_g2 = 1
     index_1 = 0
     index_2 = 0
-    list_giant = []
-    for j in range(0, l + 2):
+    list_giant = [(1,1),(inv_g1, inv_g2)]
+    for j in range(2, l + 2):
         exponentiation = exponent_function(inv_g1, inv_g2, j, p)
         multiplier = [h1, h2]
         result = multiply_function(exponentiation, multiplier, p)
@@ -84,7 +83,7 @@ def baby_step_giant_step(g1, g2, order, h1, h2, p):
         #         # print(list_g1.index(result[0]), list_g2.index(result[1]))
         #         index_1 = list_baby.index(result[0])
         #         index_2 = j - 2
-    a = index_1 + 1 + (l * (index_2 + 1) )
+    a = (index_1 + (l * (index_2))) % order
     print(a)
     check = exponent_function(g1, g2, a, p)
     if check[0] == h1 and check[1] == h2:
@@ -93,9 +92,6 @@ def baby_step_giant_step(g1, g2, order, h1, h2, p):
         print("something went wrong, answer incorrect")
         print(check)
 
-    print(list_baby)
-    print("========================================")
-    print(list_giant)
     print(index_1, index_2)
     # print(a)
     # print(index_1, index_2)
@@ -103,23 +99,30 @@ def baby_step_giant_step(g1, g2, order, h1, h2, p):
     # print(list_g1[index_1], list_g2[index_2])
 
 def exponent_function(g1, g2, exp, p):
-    list_g1 = [1, g1]
-    list_g2 = [1, g2]
+    # list_g1 = [1, g1]
+    # list_g2 = [1, g2]
 
+    curr_g1 = g1
+    curr_g2 = g2
     for i in range(2, exp + 1):
-        new_g1 = ((list_g1[i - 1] * list_g1[1]) + (3 * list_g2[i-1] * list_g2[1])) % p
-        new_g2 = ((list_g1[i-1] * list_g2[1]) + (list_g2[i-1] * list_g1[1])) % p
-        list_g1.append(new_g1)
-        list_g2.append(new_g2)
+        curr_g1, curr_g2 = multiply_function((g1,g2), (curr_g1, curr_g2), p)
 
-    return list_g1[exp], list_g2[exp]
+        # new_g1 = ((list_g1[i - 1] * list_g1[1]) + (3 * list_g2[i-1] * list_g2[1])) % p
+        # new_g2 = ((list_g1[i-1] * list_g2[1]) + (list_g2[i-1] * list_g1[1])) % p
+        # list_g1.append(new_g1)
+        # list_g2.append(new_g2)
+
+    return curr_g1, curr_g2
 
 baby_step_giant_step(int(sys.argv[1]),int(sys.argv[2]),int(sys.argv[3]),int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6]))
 
-#print(exponent_function(125, 18, 7195 ,127))
+print(exponent_function(125, 18, 16129,127))
 #94 + 99 sqrt{3}
 # for i in range(20000):
 #      result = exponent_function(125, 18, i, 127)
-#      if result[0] == 12 and result[1] == 37:
+#      if result[0] == 37 and result[1] == 12:
 #           print(i, result)
+
+print(multiply_function([105,165],[34,1],127))
+print(exponent_function(125, 18, 24067,127))
 
