@@ -1,6 +1,3 @@
-import sys
-import math
-from sage.all import *
 import subprocess
 
 correct_ciphertext = "1a3d3c5d67daf2707ef74e38478d7fbf0c7648fae3e29264b147bfc5fdf00205"
