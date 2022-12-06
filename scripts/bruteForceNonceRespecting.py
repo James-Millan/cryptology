@@ -20,8 +20,8 @@ with open("../publics/n2_cbc.txt") as f:
 
 words = []
 with open("../words.txt") as w:
-    for i in range(1000):
-        words.append(w.readline().strip())
+    for line in w:
+        words.append(line.strip())
 
 
 
