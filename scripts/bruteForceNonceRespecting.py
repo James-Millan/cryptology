@@ -33,7 +33,7 @@ for k in range(6):
 
 print(correct_plaintext)
 
-# we want to compute ./cbc input nonce or smth
+# we want to compute ./cbc input nonce
 
 
 
