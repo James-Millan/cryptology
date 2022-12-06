@@ -23,15 +23,7 @@ for k in range(6):
         if answer_found:
             break
         for i in v:
-            #print(i)
             message = message + i
-        # number_to_pad = 96 - len(message)
-        # hex_number = hex(number_to_pad)
-        # for j in range(number_to_pad):
-        #     message = message + str(hex_number)
-        print(message)
-        #print(subprocess.run(["../cbc", nonce, message]))
-
         current_answer = subprocess.run(["../cbc", nonce, message], stdout=subprocess.PIPE).stdout.decode()
         if correct_ciphertext == current_answer:
             correct_plaintext = message
@@ -41,6 +33,7 @@ for k in range(6):
 
 print(correct_plaintext)
 
+# we want to compute ./cbc input nonce or smth
 
 
 
