@@ -1,5 +1,6 @@
 import subprocess
 import itertools
+import wordlist
 
 current_answer = ""
 answer_found = False
@@ -11,6 +12,7 @@ c_block1 = "1a3d3c5d67daf2707ef74e38478d7fbf"
 c_block2 = "0c7648fae3e29264b147bfc5fdf00205"
 output = "ea486e17628aef1d009930c1b91f3ea41881692d1ee52ed63e73d70e1a8d00434fc2313a8e691c43046dc749153f08b7"
 alphabet = "abcdefghijklmnopqrstuvwxyz "
+words = wordlist.Generator(alphabet).generate(2,6)
 message = initial_plaintext
 nonce = ""
 with open("../publics/n2_cbc.txt") as f:
@@ -20,8 +22,8 @@ with open("../publics/n2_cbc.txt") as f:
 expected_value = subprocess.run(["../cbc", c_block2, c_block1 ], stdout=subprocess.PIPE).stdout.decode()
 print(expected_value)
 
-for k in range(16):
-    subsets = itertools.permutations(alphabet, k)
+for k in range(3):
+    subsets = itertools.permutations(words, k)
     if answer_found:
         break
     for v in subsets:
@@ -41,7 +43,7 @@ for k in range(16):
 
 print(correct_plaintext)
 
-# we want to compute ./cbc input nonce
+
 
 
 
@@ -56,4 +58,4 @@ print(correct_plaintext)
 #     print(subprocess.run(["../cbc", nonce, message]))
 
 
-6a504d5b09959d3137bea0fd93b1f4b99fc884e8cd7a3
+#6a504d5b09959d3137bea0fd93b1f4b99fc884e8cd7a3

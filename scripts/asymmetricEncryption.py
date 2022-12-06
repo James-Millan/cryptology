@@ -8,6 +8,7 @@ import numpy as np
 
 # defining RSA as a trapdoor function
 
+# defines RSA
 class Rsa:
     def __init__(self, p, q):
         self.p = p
@@ -27,3 +28,7 @@ class Rsa:
             pk = math.randint(1, n-1)
         sk = sage.inverse_mod(pk, phi_n)
         return (pk, n), (sk, n)
+
+
+class Hash:
+    def __init__(self, a, b):
