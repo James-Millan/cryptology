@@ -4,7 +4,6 @@ message = bytes.fromhex("0123456789abcdef0123456789abcdef")
 ciphertext = bytes.fromhex("1a7f3e8d067c8a281cac681b815333a7")
 print(ciphertext)
 
-print(aes1.encrypt(message) == aes2.decrypt(ciphertext))
 c1_list = set()
 k1_list = {}
 k2_list = {}
