@@ -4,6 +4,7 @@ import sys
 import math
 from sage.all import *
 import numpy as np
+import Prime as p
 
 
 # defining RSA as a trapdoor function
@@ -24,11 +25,25 @@ class Rsa:
     def keygen(self, n):
         pk = math.randint(1,n-1)
         phi_n = ((self.p - 1) * (self.q-1))
-        while math.gcd(pk, phi_n):
+        while math.gcd(pk, phi_n) != 1:
             pk = math.randint(1, n-1)
         sk = sage.inverse_mod(pk, phi_n)
         return (pk, n), (sk, n)
 
 
-class Hash:
-    def __init__(self, a, b):
+class Encryption:
+    def __init__(self, key_rsa, key_hash):
+        self.pk = key_rsa[0]
+        self.sk = key_rsa[1]
+        self.k = key_hash
+        self.rsa = None
+        self.hash = None
+
+    def keyGen(self):
+        p = random_prime()
+        q = random_prime()
+        while p == q:
+            q = random_prime()
+        self.rsa = Rsa()
+
+# getRandomPrime(primeType,totalDigits,mode=0)
