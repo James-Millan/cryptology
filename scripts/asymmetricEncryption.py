@@ -21,12 +21,12 @@ class Rsa:
         return pow(c, sk[0], self.n)
 
     def keygen(self, p, q):
-        pk = random.randint(1,n-1)
+        pk = random.randint(1, p * q)
         phi_n = ((p - 1) * (q-1))
         while math.gcd(pk, phi_n) != 1:
-            pk = random.randint(1, n-1)
+            pk = random.randint(1, p * q)
         sk = inverse_mod(pk, phi_n)
-        return (pk, n), (sk, n)
+        return (pk, p * q), (sk, p * q)
 
 
 class Encryption:
@@ -42,8 +42,7 @@ class Encryption:
         q = random_prime(self.max_int)
         while p == q:
             q = random_prime(self.max_int)
-        n = p * q
-        self.rsa = Rsa(n)
+        self.rsa = Rsa(p * q)
         self.hash = hashlib.sha256()
         return self.rsa.keygen(p, q)
 
@@ -101,7 +100,7 @@ def help_message():
     print("sage asymmetricEncryption.py -k \n")
     print("returns two pairs. Your public key followed by your private key.\n")
     print("sage asymmetricEncryption.py -e [message] [public_key] [n] \n")
-    print("where [message] is an ASCII encoded plaintext and [public_key] is the first element of the first "
+    print("where [message] is a 16 characters of ASCII encoded plaintext and [public_key] is the first element of the first "
           + "pair returned by keygen \n")
     print("[n] is the modulus for your public key, the second element of either pair returned by keygen. \n")
     print("the output is two pieces of information: the f_pk(r) and H(r) XOR m \n")
@@ -118,6 +117,8 @@ elif argc == 1:
     elif str(arguments[0]) == "-k":
         enc = Encryption()
         print(enc.key_gen())
+    else:
+        default_error_usage()
 elif argc == 4:
     if str(arguments[0]) == "-e":
         m = arguments[1]
@@ -144,6 +145,8 @@ else:
     default_error_usage()
 
 ######TESTS######
-# enc = Encryption()
-# pk,n = enc.key_gen()
-# m = "hello world!"
+enc = Encryption()
+pk, sk = enc.key_gen()
+m = "abcdefghijklmnop"
+e = enc.encryption(m,pk[0],pk[1])
+enc.decryption(e[0], e[1], sk[0], sk[1])
